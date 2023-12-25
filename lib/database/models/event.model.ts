@@ -1,29 +1,29 @@
-import { Schema, model, models } from "mongoose";
+import { Document, Schema, model, models } from "mongoose";
 
 export interface IEvent extends Document {
-	_id: string;
-	title: string;
-	description?: string;
-	locations?: string;
-	createdAt: Date;
-	imageURL: string;
-	startDateTime: Date;
-	endDateTime: Date;
-	price?: string;
-	isFree: boolean;
-	url?: string;
-	category: { _id: string, name: string };
-	organizer: {_id: string, firstName: string, lastName: string };
+  _id: string;
+  title: string;
+  description?: string;
+  location?: string;
+  createdAt: Date;
+  imageUrl: string;
+  startDateTime: Date;
+  endDateTime: Date;
+  price: string;
+  isFree: boolean;
+  url?: string;
+  category: { _id: string; name: string };
+  organizer: { _id: string; firstName: string; lastName: string };
 }
 
 const EventSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String },
-  locations: { type: String },
+  location: { type: String },
   createdAt: { type: Date, default: Date.now },
-  imageURL: { type: String, required: true },
-  startDateTime: { Type: Date, default: Date.now },
-  endDateTime: { Type: Date, default: Date.now },
+  imageUrl: { type: String, required: true },
+  startDateTime: { type: Date, default: () => new Date() }, // Use a function that returns the current date and time
+  endDateTime: { type: Date, default: () => new Date() },
   price: { type: String },
   isFree: { type: Boolean, default: false },
   url: { type: String },
@@ -31,6 +31,6 @@ const EventSchema = new Schema({
   organizer: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
-const Event = models.Event || model('Event', EventSchema);
+const Event = models.Event || model("Event", EventSchema);
 
 export default Event;
